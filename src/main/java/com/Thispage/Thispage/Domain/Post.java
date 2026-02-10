@@ -21,4 +21,8 @@ public class Post {
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
 }

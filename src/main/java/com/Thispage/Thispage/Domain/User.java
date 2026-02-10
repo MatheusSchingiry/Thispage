@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -20,4 +21,7 @@ public class User {
 
     @Column(nullable = false, length = 255, unique = true)
     private String username;
+
+    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
+    private List<Post> posts;
 }

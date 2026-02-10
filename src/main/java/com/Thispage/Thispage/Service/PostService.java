@@ -14,6 +14,9 @@ public class PostService {
     }
 
     public Post createPost(Post post) {
+        if(post.getCreator() == null) {
+            throw new IllegalArgumentException("Post must have a creator.");
+        }
         return postRepository.save(post);
     }
 
@@ -22,13 +25,16 @@ public class PostService {
     }
 
     public Post updatePost(Long id, Post post) {
-        Post existingPost = postRepository.findById(id).orElse(null);
-        if (existingPost != null) {
-            existingPost.setTitle(post.getTitle());
-            existingPost.setContent(post.getContent());
-            return postRepository.save(existingPost);
+        Post existingPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post not found with id: " + id));
+
+        if(post.getCreator() != existingPost.getCreator() || post.getCreator() == null) {
+            throw new IllegalArgumentException("Post must have a creator and it must match the existing post's creator.");
         }
-        return null;
+
+        existingPost.setTitle(post.getTitle());
+        existingPost.setContent(post.getContent());
+
+        return postRepository.save(existingPost);
     }
 
     public void deletePost(Long id) {
