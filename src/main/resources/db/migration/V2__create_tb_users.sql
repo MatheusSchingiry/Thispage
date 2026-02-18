@@ -1,4 +1,4 @@
 CREATE TABLE tb_users (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE
 );
