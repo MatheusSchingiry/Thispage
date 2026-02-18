@@ -4,6 +4,9 @@ import com.Thispage.Thispage.Domain.Post;
 import com.Thispage.Thispage.Repository.PostRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.UUID;
+
 @Service
 public class PostService {
 
@@ -20,11 +23,15 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public Post getPostById(Long id) {
+    public List<Post> getAllPosts() {
+        return postRepository.findAll();
+    }
+
+    public Post getPostById(UUID id) {
         return postRepository.findById(id).orElse(null);
     }
 
-    public Post updatePost(Long id, Post post) {
+    public Post updatePost(UUID id, Post post) {
         Post existingPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post not found with id: " + id));
 
         if(post.getCreator() != existingPost.getCreator() || post.getCreator() == null) {
@@ -37,7 +44,7 @@ public class PostService {
         return postRepository.save(existingPost);
     }
 
-    public void deletePost(Long id) {
+    public void deletePost(UUID id) {
         postRepository.deleteById(id);
     }
 }

@@ -4,6 +4,9 @@ import com.Thispage.Thispage.Domain.Post;
 import com.Thispage.Thispage.Service.PostService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/posts")
 public class PostController {
@@ -19,18 +22,23 @@ public class PostController {
         return postService.createPost(post);
     }
 
+    @GetMapping()
+    public List<Post> getAllPosts() {
+        return postService.getAllPosts();
+    }
+
     @GetMapping("/{id}")
-    public Post findById(@PathVariable Long id) {
+    public Post findById(@PathVariable UUID id) {
         return postService.getPostById(id);
     }
 
     @PutMapping("/{id}")
-    public Post updatePost(@PathVariable Long id, @RequestBody Post post) {
+    public Post updatePost(@PathVariable UUID id, @RequestBody Post post) {
         return postService.updatePost(id, post);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable Long id) {
+    public void deletePost(@PathVariable UUID id) {
         postService.deletePost(id);
     }
 }
