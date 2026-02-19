@@ -1,6 +1,8 @@
 package com.Thispage.Thispage.Service;
 
+import com.Thispage.Thispage.DTO.CredentialsDTO;
 import com.Thispage.Thispage.Domain.Credentials;
+import com.Thispage.Thispage.Mapper.CredentialsMapper;
 import com.Thispage.Thispage.Repository.CredentialsRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,28 +13,36 @@ import java.util.UUID;
 public class CredentialsService {
 
     private final CredentialsRepository credentialsRepository;
+    private final CredentialsMapper credentialsMapper;
 
-    public CredentialsService(CredentialsRepository credentialsRepository) {
+    public CredentialsService(CredentialsRepository credentialsRepository, CredentialsMapper credentialsMapper) {
         this.credentialsRepository = credentialsRepository;
+        this.credentialsMapper = credentialsMapper;
     }
 
-    public Credentials createCredentials(Credentials credentials) {
-        return credentialsRepository.save(credentials);
+    public CredentialsDTO createCredentials(CredentialsDTO credentials) {
+        Credentials newCredentials = credentialsMapper.toEntity(credentials);
+        credentialsRepository.save(newCredentials);
+        return credentialsMapper.toDTO(newCredentials);
     }
 
-    public Credentials getCredentialsById(UUID id) {
-        return credentialsRepository.findById(id).orElse(null);
+    public CredentialsDTO getCredentialsById(UUID id) {
+        return credentialsMapper.toDTO(credentialsRepository.findById(id).orElseThrow(() -> new RuntimeException("Credentials not found")));
     }
 
-    public List<Credentials> getAllCredentials() {
-        return credentialsRepository.findAll();
+    public List<CredentialsDTO> getAllCredentials() {
+        return credentialsRepository
+                .findAll()
+                .stream()
+                .map(credentialsMapper::toDTO)
+                .toList();
     }
 
-    public Credentials updateCredentials(UUID id, Credentials updatedCredentials) {
+    public CredentialsDTO updateCredentials(UUID id, CredentialsDTO updatedCredentials) {
         Credentials existingCredentials = credentialsRepository.findById(id).orElseThrow(() -> new RuntimeException("Credentials not found"));
-        existingCredentials.setEmail(updatedCredentials.getEmail());
-        existingCredentials.setPassword(updatedCredentials.getPassword());
-        return credentialsRepository.save(existingCredentials);
+        existingCredentials.setEmail(updatedCredentials.email());
+        existingCredentials.setPassword(updatedCredentials.password());
+        return credentialsMapper.toDTO(credentialsRepository.save(existingCredentials));
 
     }
 
