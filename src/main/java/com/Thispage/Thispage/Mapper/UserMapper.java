@@ -10,6 +10,7 @@ public class UserMapper {
     public User toEntity(UserDTO dto) {
         return new User(
             dto.id(),
+            dto.credentials(),
             dto.username(),
             dto.posts()
         );
@@ -18,6 +19,7 @@ public class UserMapper {
     public UserDTO toDTO(User user) {
         return new UserDTO(
             user.getId(),
+            user.getCredentials(),
             user.getUsername(),
             user.getPosts()
         );

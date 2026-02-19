@@ -19,6 +19,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "credentials_id", referencedColumnName = "id")
+    private Credentials credentials;
+
     @Column(nullable = false, length = 255, unique = true)
     private String username;
 
