@@ -1,5 +1,6 @@
 package com.Thispage.Thispage.Controller;
 
+import com.Thispage.Thispage.DTO.UserDTO;
 import com.Thispage.Thispage.Domain.User;
 import com.Thispage.Thispage.Service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,12 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public UserDTO createUser(@RequestBody UserDTO user) {
         return userService.createUser(user);
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable UUID id) {
+    public UserDTO getUserById(@PathVariable UUID id) {
         return userService.getUserById(id);
     }
 

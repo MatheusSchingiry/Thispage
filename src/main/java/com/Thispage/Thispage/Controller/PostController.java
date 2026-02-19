@@ -1,5 +1,6 @@
 package com.Thispage.Thispage.Controller;
 
+import com.Thispage.Thispage.DTO.PostDTO;
 import com.Thispage.Thispage.Domain.Post;
 import com.Thispage.Thispage.Service.PostService;
 import org.springframework.web.bind.annotation.*;
@@ -18,22 +19,22 @@ public class PostController {
     }
 
     @PostMapping
-    public Post createPost(@RequestBody Post post) {
+    public PostDTO createPost(@RequestBody PostDTO post) {
         return postService.createPost(post);
     }
 
     @GetMapping()
-    public List<Post> getAllPosts() {
+    public List<PostDTO> getAllPosts() {
         return postService.getAllPosts();
     }
 
     @GetMapping("/{id}")
-    public Post findById(@PathVariable UUID id) {
+    public PostDTO findById(@PathVariable UUID id) {
         return postService.getPostById(id);
     }
 
     @PutMapping("/{id}")
-    public Post updatePost(@PathVariable UUID id, @RequestBody Post post) {
+    public PostDTO updatePost(@PathVariable UUID id, @RequestBody PostDTO post) {
         return postService.updatePost(id, post);
     }
 

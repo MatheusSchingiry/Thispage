@@ -1,6 +1,8 @@
 package com.Thispage.Thispage.Service;
 
+import com.Thispage.Thispage.DTO.PostDTO;
 import com.Thispage.Thispage.Domain.Post;
+import com.Thispage.Thispage.Mapper.PostMapper;
 import com.Thispage.Thispage.Repository.PostRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,37 +13,45 @@ import java.util.UUID;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PostMapper postMapper;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, PostMapper postMapper) {
         this.postRepository = postRepository;
+        this.postMapper = postMapper;
     }
 
-    public Post createPost(Post post) {
-        if(post.getCreator() == null) {
+    public PostDTO createPost(PostDTO post) {
+        if(post.creator() == null) {
             throw new IllegalArgumentException("Post must have a creator.");
         }
-        return postRepository.save(post);
+        Post postEntity = postMapper.toEntity(post);
+        postRepository.save(postEntity);
+        return postMapper.toDTO(postEntity);
     }
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public List<PostDTO> getAllPosts() {
+        return postRepository.findAll()
+                .stream()
+                .map(postMapper::toDTO)
+                .toList();
     }
 
-    public Post getPostById(UUID id) {
-        return postRepository.findById(id).orElse(null);
+    public PostDTO getPostById(UUID id) {
+        return postMapper.toDTO(postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post not found with id: " + id)));
     }
 
-    public Post updatePost(UUID id, Post post) {
+    public PostDTO updatePost(UUID id, PostDTO post) {
         Post existingPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post not found with id: " + id));
 
-        if(post.getCreator() != existingPost.getCreator() || post.getCreator() == null) {
+        if(post.creator() != existingPost.getCreator() || post.creator() == null) {
             throw new IllegalArgumentException("Post must have a creator and it must match the existing post's creator.");
         }
 
-        existingPost.setTitle(post.getTitle());
-        existingPost.setContent(post.getContent());
+        existingPost.setTitle(post.title());
+        existingPost.setContent(post.content());
 
-        return postRepository.save(existingPost);
+        postRepository.save(existingPost);
+        return postMapper.toDTO(existingPost);
     }
 
     public void deletePost(UUID id) {
