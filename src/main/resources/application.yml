@@ -16,3 +16,7 @@ spring:
 
   flyway:
      enabled: true
+
+api:
+  security:
+    token: ${API_SECURITY_TOKEN}
