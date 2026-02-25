@@ -2,8 +2,7 @@ package com.Thispage.Thispage.Controller;
 
 import com.Thispage.Thispage.DTO.CredentialsDTO;
 import com.Thispage.Thispage.Service.CredentialsService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,22 +17,22 @@ public class CredentialsController {
         this.credentialsService = credentialsService;
     }
 
-    public CredentialsDTO createCredentials(CredentialsDTO credentials) {
-        return credentialsService.createCredentials(credentials);
+    @PostMapping
+    public CredentialsDTO getCredentialsByEmail(String email) {
+        return credentialsService.getCredentialsByEmail(email);
     }
 
-    public CredentialsDTO getCredentialsById(UUID id) {
-        return credentialsService.getCredentialsById(id);
-    }
-
+    @GetMapping
     public List<CredentialsDTO> getAllCredentials() {
         return credentialsService.getAllCredentials();
     }
 
+    @PutMapping
     public CredentialsDTO updateCredentials(UUID id, CredentialsDTO updatedCredentials) {
         return credentialsService.updateCredentials(id, updatedCredentials);
     }
 
+    @DeleteMapping
     public void deleteCredentials(UUID id) {
         credentialsService.deleteCredentials(id);
     }

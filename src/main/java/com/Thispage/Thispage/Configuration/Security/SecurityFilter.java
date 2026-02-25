@@ -6,14 +6,17 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
 
+@Service
 public class SecurityFilter extends OncePerRequestFilter {
 
     private final TokenService tokenService;
@@ -29,7 +32,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = this.recoveryToken(request);
         var login = tokenService.validateToken(token);
 
-        if(login == null) {
+        if(login != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             Credentials credential = credentialsRepository.findByEmail(login).orElseThrow(() -> new RuntimeException("Invalid token"));
             var authority = Collections.singletonList(new SimpleGrantedAuthority("Role_User"));
             var authentication = new UsernamePasswordAuthenticationToken(credential, null, authority);

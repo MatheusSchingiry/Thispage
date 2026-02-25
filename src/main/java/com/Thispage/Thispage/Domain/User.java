@@ -1,5 +1,6 @@
 package com.Thispage.Thispage.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class User {
     @Column(nullable = false, length = 255, unique = true)
     private String username;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
     private List<Post> posts;
 }
