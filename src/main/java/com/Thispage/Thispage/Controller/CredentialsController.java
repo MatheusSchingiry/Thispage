@@ -17,8 +17,8 @@ public class CredentialsController {
         this.credentialsService = credentialsService;
     }
 
-    @PostMapping
-    public CredentialsDTO getCredentialsByEmail(String email) {
+    @GetMapping("/{email}")
+    public CredentialsDTO getCredentialsByEmail(@PathVariable String email) {
         return credentialsService.getCredentialsByEmail(email);
     }
 
