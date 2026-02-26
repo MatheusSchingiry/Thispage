@@ -2,9 +2,9 @@ package com.Thispage.Thispage.Mapper;
 
 import com.Thispage.Thispage.DTO.PostDTO;
 import com.Thispage.Thispage.Domain.Post;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class PostMapper {
 
     public Post toEntity(PostDTO postDTO) {

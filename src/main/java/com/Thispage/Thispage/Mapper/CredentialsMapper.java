@@ -2,9 +2,9 @@ package com.Thispage.Thispage.Mapper;
 
 import com.Thispage.Thispage.DTO.CredentialsDTO;
 import com.Thispage.Thispage.Domain.Credentials;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class CredentialsMapper {
 
     public Credentials toEntity(CredentialsDTO credentialsDTO) {
@@ -17,11 +17,10 @@ public class CredentialsMapper {
     }
 
     public CredentialsDTO toDTO(Credentials credentials) {
-        return  new CredentialsDTO(
-                credentials.getId(),
-                credentials.getUser(),
-                credentials.getEmail(),
-                credentials.getPassword()
+        return  CredentialsDTO.builder()
+                .id(credentials.getId())
+                .email(credentials.getEmail())
+                .build(
         );
     }
 }

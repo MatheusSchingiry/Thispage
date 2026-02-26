@@ -2,9 +2,9 @@ package com.Thispage.Thispage.Mapper;
 
 import com.Thispage.Thispage.DTO.UserDTO;
 import com.Thispage.Thispage.Domain.User;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class UserMapper {
 
     public User toEntity(UserDTO dto) {
@@ -17,11 +17,9 @@ public class UserMapper {
     }
 
     public UserDTO toDTO(User user) {
-        return new UserDTO(
-            user.getId(),
-            user.getCredentials(),
-            user.getUsername(),
-            user.getPosts()
-        );
+        return UserDTO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .build();
     }
 }
