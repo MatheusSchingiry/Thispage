@@ -14,7 +14,7 @@ import java.util.ArrayList;
 @Service
 public class CustomUserDetailService implements UserDetailsService {
 
-    private CredentialsRepository credentialsRepository;
+    private final CredentialsRepository credentialsRepository;
 
     public CustomUserDetailService(CredentialsRepository credentialsRepository) {
         this.credentialsRepository = credentialsRepository;
