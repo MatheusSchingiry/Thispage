@@ -1,7 +1,7 @@
 package com.Thispage.Thispage.Service;
 
 import com.Thispage.Thispage.Configuration.Security.TokenService;
-import com.Thispage.Thispage.DTO.AcessDTO;
+import com.Thispage.Thispage.DTO.AccessDTO;
 import com.Thispage.Thispage.DTO.CredentialsDTO;
 import com.Thispage.Thispage.Domain.Credentials;
 import com.Thispage.Thispage.Mapper.CredentialsMapper;
@@ -45,11 +45,11 @@ public class CredentialsService {
         return credentialsMapper.toDTO(credentialsRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Credentials not found")));
     }
 
-    public AcessDTO login(CredentialsDTO credentials) {
+    public AccessDTO login(CredentialsDTO credentials) {
         Credentials existingCredentials = credentialsRepository.findByEmail(credentials.email()).orElseThrow(() -> new RuntimeException("Credentials not found"));
         if (passwordEncoder.matches(credentials.password(), existingCredentials.getPassword())) {
             String token = tokenService.generateToken(existingCredentials);
-            return new AcessDTO(token);
+            return new AccessDTO(token);
         } else {
             throw new RuntimeException("Invalid email or password");
         }

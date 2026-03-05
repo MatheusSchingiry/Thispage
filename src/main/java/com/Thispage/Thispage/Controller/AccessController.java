@@ -1,6 +1,6 @@
 package com.Thispage.Thispage.Controller;
 
-import com.Thispage.Thispage.DTO.AcessDTO;
+import com.Thispage.Thispage.DTO.AccessDTO;
 import com.Thispage.Thispage.DTO.CredentialsDTO;
 import com.Thispage.Thispage.Service.CredentialsService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
-public class AcessController {
+public class AccessController {
 
     private final CredentialsService credentialsService;
 
-    public AcessController(CredentialsService credentialsService) {
+    public AccessController(CredentialsService credentialsService) {
         this.credentialsService = credentialsService;
     }
 
     @PostMapping("/login")
-    public AcessDTO login(@RequestBody CredentialsDTO credentials) {
+    public AccessDTO login(@RequestBody CredentialsDTO credentials) {
         return credentialsService.login(credentials);
 
     }
